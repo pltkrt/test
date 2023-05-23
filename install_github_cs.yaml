@@ -9,18 +9,21 @@ spec:
   - name: code-server
     imagePullPolicy: IfNotPresent
     image: pltkrt/cs:latest
+    env:
+      - name: DOCKER_HOST
+        value: tcp://localhost:2375
     ports:
     - name: web
       containerPort: 8443
       protocol: TCP
     volumeMounts:
-      #- mountPath: /tmp/pk
-      #  name: pkvol
-      - mountPath: /var/run
-        name: dockervol
-    securityContext:
-      privileged: true
-      runAsUser: 0
+      - mountPath: /tmp/pk
+        name: pkvol
+      #- mountPath: /var/run
+      #  name: dockervol
+          #securityContext:
+          #privileged: true
+          #runAsUser: 0
   imagePullSecrets:
   - name: dockercred
   initContainers:
@@ -30,6 +33,8 @@ spec:
     volumeMounts:
     - mountPath: /tmp/pk
       name: pkvol
+    - mountPath: /var/run
+      name: dockervol
         #env:
           #- name: PUID
           #  value: "1000"
