@@ -1,5 +1,5 @@
 apiVersion: v1
-kind: Pod 
+kind: Pod
 metadata:
   name: academy
   labels:
@@ -14,10 +14,10 @@ spec:
       containerPort: 8443
       protocol: TCP
     volumeMounts:
-      - mountPath: /tmp/pk
-        name: pkvol
+      #- mountPath: /tmp/pk
+      #  name: pkvol
       - mountPath: /var/run
-        name: docker-socket 
+        name: dockervol
     securityContext:
       privileged: true
       runAsUser: 0
@@ -28,9 +28,9 @@ spec:
     image: pltkrt/cs:latest
     command: ['sh', '-c', 'echo "hello from init" && touch /tmp/pk/test.txt']
     volumeMounts:
-      - mountPath: /tmp/pk
-        name: pkvol    
-      #env:
+    - mountPath: /tmp/pk
+      name: pkvol
+        #env:
           #- name: PUID
           #  value: "1000"
           #- name: PGID
@@ -41,8 +41,7 @@ spec:
     - name: pkvol
       hostPath:
         path: /tmp/pk
-    - name: docker-socket
+    - name: dockervol
       hostPath:
         path: /var/run
-        type: Socket
   restartPolicy: Always
