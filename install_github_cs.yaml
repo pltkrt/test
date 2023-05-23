@@ -15,7 +15,9 @@ spec:
       protocol: TCP
     volumeMounts:
       - mountPath: /tmp/pk
-        name: pkvol 
+        name: pkvol
+      - mountPath: /var/run
+        name: docker-socket 
     securityContext:
       privileged: true
       runAsUser: 0
@@ -36,7 +38,11 @@ spec:
           #- name: TZ
           #  value: "ETC/UTC"
   volumes:
-  - name: pkvol 
+  - name: pkvol
     hostPath:
       path: /tmp/pk
+  - name: docker-socket
+    hostPath:
+      path: /var/run
+      type: Socket
   restartPolicy: Always
